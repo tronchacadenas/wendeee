@@ -1,0 +1,7 @@
+{
+    "git.autofetch": false,
+    "cmake.configureOnOpen": false,
+    "files.associations": {
+        "string": "cpp"
+    }
+}
