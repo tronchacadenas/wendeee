@@ -85,8 +85,8 @@ extern byte hrmBat[1];
 #define FILTER_INT_PERIOD
 #define PRINT_INT_PERIOD
 
-#define outputPin  3
-#define zerocross  4
+#define outputPin  2
+#define zerocross  1
 
 extern bool fanAuto;
 

@@ -36,7 +36,7 @@ void cFanControl::controlTask(void *pvParameters) {
     
     // set AC dimmer value
     Log.verbose(F("[%l] [control] Fan speed: %d\r\n"),  millis(),fanSpeed+fanSpeed_offset);
-    fan.setBrightness(fanSpeed); // setBrightness(0-255);
+    fan.setBrightness(fanSpeed+fanSpeed_offset); // setBrightness(0-255);
 
     vTaskDelay( controlTime*1000 / portTICK_PERIOD_MS ); // fan control frequency
     }

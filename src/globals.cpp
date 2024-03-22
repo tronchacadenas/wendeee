@@ -56,7 +56,7 @@ int min_hrm =  40;
 int max_hrm = 160;
 
 int fanSpeed = 0;
-int fanSpeed_offset = 110;
+int fanSpeed_offset = 100;
 
 /*--------------------------------------------------------------------------------*/
 
