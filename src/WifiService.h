@@ -24,6 +24,8 @@ class cWifi {
 
     static void connect();
 
+    static void disconnect();
+
     static void create();
 
     static void infoAP();

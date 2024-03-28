@@ -34,7 +34,15 @@ void cWifi::connect() {
     // configure STA (client)
     Log.notice(F("[%l] [wifi] Trying to connect to WiFi\r\n"),  millis());
     WiFi.begin(wifiSSID, wifiPassword);
-    vTaskDelay( 2000 / portTICK_PERIOD_MS );  // Delay between retries
+    vTaskDelay( 1000 / portTICK_PERIOD_MS );
+}
+
+void cWifi::disconnect() {
+    
+    // stop STA (client)
+    Log.notice(F("[%l] [wifi] Disconnect to WiFi\r\n"),  millis());
+    WiFi.disconnect();
+    vTaskDelay( 1000 / portTICK_PERIOD_MS );
 }
 
 void cWifi::infoAP() {
@@ -49,6 +57,7 @@ void cWifi::infoSTA() {
     Log.notice(F("[%l] [wifi] INFO\r\n"),  millis());
     Log.notice(F("[%l] [wifi] * Mode: Client\r\n"),  millis());
     Log.notice(F("[%l] [wifi] * IP  : %s\r\n"),  millis(), WiFi.localIP().toString());
+    vTaskDelay( 1000 / portTICK_PERIOD_MS );
 }
 
 void cWifi::mdns() {
@@ -70,11 +79,16 @@ void cWifi::wifiEvent(WiFiEvent_t event) {
         break;
         case ARDUINO_EVENT_WIFI_STA_DISCONNECTED:
         Log.trace(F("[%l] [wifi] [STA] Disconnected from access point\r\n"), millis());
-        wifiClientReady = false;
-        cWifi::connect();
+        if (wifiClientRetry > 0) {
+            wifiClientRetry--;
+            wifiClientReady = false;
+            cWifi::connect();
+        }
+        else cWifi::disconnect(); // stop trying to connect
         break;
         case ARDUINO_EVENT_WIFI_STA_GOT_IP:
         Log.trace(F("[%l] [wifi] [STA] Obtained IP\r\n"), millis());
+        wifiClientRetry = 10; // reset retries
         wifiClientReady = true;
         cWifi::infoSTA();
         cWifi::mdns();
@@ -84,10 +98,9 @@ void cWifi::wifiEvent(WiFiEvent_t event) {
         break;
         case ARDUINO_EVENT_WIFI_AP_START:
         Log.trace(F("[%l] [wifi] [AP] Access point started\r\n"), millis());
-        delay(1000);
         wifiServerReady = true;
         cWifi::infoAP();
-        cWifi::mdns();
+        // cWifi::mdns();
         break;
         case ARDUINO_EVENT_WIFI_AP_STOP:
         Log.trace(F("[%l] [wifi] [AP] Access point stoped\r\n"), millis());

@@ -19,7 +19,7 @@
 
 /*--------------------------------------------------------------------------------*/
 
-#define VERSION_SW "0.9.9 Beta"
+#define VERSION_SW "0.9.10 Beta"
 
 #define ARDUINO_LOG_LEVEL 5
 
@@ -113,6 +113,7 @@ extern String wifiPassword;
 extern String hostname;
 
 extern bool wifiClientReady;
+extern int  wifiClientRetry;
 extern bool wifiServerReady;
 
 /*--------------------------------------------------------------------------------*/

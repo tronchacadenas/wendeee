@@ -73,6 +73,7 @@ String wifiPassword;
 String hostname = "wendeee";
 
 bool wifiClientReady = false;
+int  wifiClientRetry = 10;
 bool wifiServerReady = false;
 
 /*--------------------------------------------------------------------------------*/
